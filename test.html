@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+    <input type="text" id="url">
+    <input type="text" id="name">
+    <input type="text" id="password">
+    <input type="file" id="file" multiple="multiple">
+    <br />
+    <button type="submit" onclick="send()">submit</button>
+
+    <div class="context"></div>
+
+
+
+
+
+</body>
+</html>
+<script>
+    document.getElementById('url').value = 'http://127.0.0.1:2100/language/get'
+</script>
+<script>
+    window.Ajax = function (config) {
+
+        return new Promise(function (resolve, reject) {
+
+            let xhr = new XMLHttpRequest();
+
+            xhr.responseType = config.responseType ? config.responseType : 'json';
+            xhr.timeout = config.timeout ? config.timeout : 0;
+            xhr.withCredentials = true;
+            xhr.onreadystatechange = () => {
+                xhr.status == 200 && xhr.readyState == 4 ? resolve(xhr.response) : void 0
+            }
+            xhr.upload.onprogress = (e) => {
+                let percent = e.lengthComputable ? ( 100 * ( e.loaded / e.total ) ) . toFixed() : 'Unable to compute progress information since the total size is unknown';
+                typeof ( config.uploadProgress ) != 'undefined' ? config.uploadProgress(percent) : void 0
+            }
+            xhr.onprogress = (e) => {
+                let percent = e.lengthComputable ? ( 100 * ( e.loaded / e.total ) ) . toFixed() : 'Unable to compute progress information since the total size is unknown';
+                typeof ( config.downProgress ) != 'undefined' ? config.downProgress(percent) : void 0
+            }
+            xhr.onerror = () => {
+                reject(xhr)
+            }
+            xhr.ontimeout = () => {
+                typeof ( config.timeout ) != 'undefined' ? config.timeout(xhr) : void 0
+            }
+
+            xhr.open(config.method ? config.method : 'POST',config.url,config.async ? config.async : true);
+
+            xhr.send(config.data ? config.data : void 0);
+        })
+
+
+    }
+</script>
+<script>
+
+
+    window.send = () => {
+
+        let data = new FormData()
+
+        data.append('name',document.getElementById('name').value)
+        data.append('password',document.getElementById('password').value)
+
+        let size = document.getElementById('file').files.length;
+
+        for ( let i=0;i<size;i++ ){
+            data.append('file',  document.getElementById('file').files[i]);
+        }
+
+        Ajax({
+            url:document.getElementById('url').value,
+            data:data
+        }).then((data)=>{
+            console.log(data)
+            document.querySelector('.context').innerHTML = data
+        })
+
+    }
+
+
+</script>
