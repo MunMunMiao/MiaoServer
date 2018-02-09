@@ -10,12 +10,13 @@ const config = {
         debug: false
     },
     app:{
-        domain: '',
-        cloud: '',
-        tmp: '',
-        error_log: '',
-        log: ''
-
+        domain: ''
+    },
+    path:{
+        cloud:'/web/cloud/',
+        tmp:'/web/tmp/',
+        error_log: '/web/log',
+        log: '/web/log'
     }
 
 }
