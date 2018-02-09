@@ -4,12 +4,10 @@ const checkUser = async (context) => {
     let token = context.cookies.get('token') || undefined
 
     if ( uid === undefined || token === undefined ){
-        context.response.body = await sendApiData(0, '请登陆','', true)
-        return await sendApiData(0, '请登陆','', false)
+        return await sendApiData(0, '','', false)
     }
 
     const crypto = require('crypto')
-
 
     let sql = "SELECT * FROM user WHERE id=? LIMIT 1"
     let value = [uid]
@@ -29,7 +27,7 @@ const checkUser = async (context) => {
 
     if ( token !== encryption ){
         context.response.body = await sendApiData(0, '请重新登陆','', true)
-        return await sendApiData(0, '请重新登陆','', true)
+        return await sendApiData(0, '','', true)
     }
 
 }

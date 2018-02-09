@@ -24,7 +24,7 @@ const login = async (context) => {
     // 在对用户输入的密码加密后与数据库的值不一致，返回失败
     if ( results.password !== encryption ){
 
-        context.response.body = await sendApiData(0, '登录失败', '', true)
+        context.response.body = await sendApiData(0, '信息错误', '', true)
 
     }
 
