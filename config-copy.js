@@ -4,8 +4,8 @@ const config = {
         host: '',
         port: '',
         user: '',
-        database: '',
         password: '',
+        database: '',
         charset: 'UTF8_GENERAL_CI',
         debug: false
     },

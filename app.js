@@ -21,7 +21,7 @@ app
 
     .use(async (context, next)=>{
         context.response.set('Server', 'Elris')
-        context.response.set('Access-Control-Allow-Origin', '*')
+        context.response.set('Access-Control-Allow-Origin', userConfig.app.domain)
         context.response.set('Access-Control-Allow-Headers', 'X-Requested-With')
         context.response.set('Access-Control-Allow-Methods', 'POST')
         context.response.set('Access-Control-Allow-Credentials', 'true')
