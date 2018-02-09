@@ -1,27 +1,30 @@
 const getLanuage = async (context) => {
 
-    let form = context.request.body.fields === null ? false : context.request.body.fields
+    let form = context.request.body.fields || null
 
     let lang = form.lang
 
-    const dbQuery = require(appPath + '/plug/dbQuery')
+    if ( form.lang === null|| form.lang === undefined ){
+        context.response.type = 403
+        return
+    }
 
-    const data = await dbQuery("SELECT keyword, cn FROM language")
+    let sql = "SELECT keyword, ?? FROM language"
+    let value = [lang]
+    let data = await dbQuery(sql, value)
 
     let results = {}
 
     for ( let r in data ){
 
         let key = data[r].keyword
-        let value = data[r].cn
+        let value = data[r][lang]
 
         results[key] = value
 
     }
 
-    // console.log(JSON.stringify(results))
-    context.body = JSON.stringify(results)
-    // context.response.body = JSON.stringify(results)
+    context.response.body = await sendApiData(1, '', results, true)
 
 
 

@@ -10,6 +10,7 @@
     <input type="text" id="url">
     <input type="text" id="name">
     <input type="text" id="password">
+    <input type="text" id="text">
     <input type="file" id="file" multiple="multiple">
     <br />
     <button type="submit" onclick="send()">submit</button>
@@ -23,18 +24,22 @@
 </body>
 </html>
 <script>
-    document.getElementById('url').value = 'http://127.0.0.1:2100/language/get'
+    document.getElementById('url').value = 'http://127.0.0.1:2100/cloud/updata'
 </script>
 <script>
     window.Ajax = function (config) {
 
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
+
+            if ( typeof (config) !== 'object' ){ reject('Config Is Empty') }
 
             let xhr = new XMLHttpRequest();
 
-            xhr.responseType = config.responseType ? config.responseType : 'json';
-            xhr.timeout = config.timeout ? config.timeout : 0;
-            xhr.withCredentials = true;
+            xhr.responseType = config.responseType || 'json';
+            xhr.timeout = config.timeout || 0;
+            xhr.withCredentials = config.withCredentials || true;
+
+            // function
             xhr.onreadystatechange = () => {
                 xhr.status == 200 && xhr.readyState == 4 ? resolve(xhr.response) : void 0
             }
@@ -53,11 +58,26 @@
                 typeof ( config.timeout ) != 'undefined' ? config.timeout(xhr) : void 0
             }
 
-            xhr.open(config.method ? config.method : 'POST',config.url,config.async ? config.async : true);
+            if ( config.method == 'GET' ){
 
-            xhr.send(config.data ? config.data : void 0);
+                for ( name in config.data ){
+                    config.url += '&' + name + '=' + config.data[data]
+                }
+
+            }
+
+            xhr.open(config.method || 'POST', config.url, config.async || true);
+
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+            if ( config.headers != null ){
+                for ( head in config.headers ){
+                    xhr.setRequestHeader( head, config.headers[head])
+                }
+            }
+
+            xhr.send(config.data || null);
+
         })
-
 
     }
 </script>
@@ -70,6 +90,7 @@
 
         data.append('name',document.getElementById('name').value)
         data.append('password',document.getElementById('password').value)
+        data.append('text',document.getElementById('text').value)
 
         let size = document.getElementById('file').files.length;
 

@@ -29,11 +29,40 @@ router
         context.response.body = await getHtml()
 
     })
-    .post('/user/login', async (context) => {
-        require(appPath + '/user/login')(context)
+    .post('*/language/get', async (context) => {
+        await require(appPath + '/language/get')(context)
     })
-    .post('/language/get', async (context) => {
-        require(appPath + '/language/get')(context)
+    .post('*/user/login', async (context) => {
+        await require(appPath + '/user/login')(context)
+    })
+    .post('*/user/signup', async (context) => {
+        await require(appPath + '/user/signup')(context)
+    })
+    .post('*/user/exit', async (context) => {
+        await require(appPath + '/user/exit')(context)
+    })
+    .post('*/user/getUserData', async (context) => {
+        await require(appPath + '/user/getUserData')(context)
+    })
+    .post('*/note', async (context) => {
+        await require(appPath + '/note/get')(context)
+    })
+    .post('*/note/push', async (context) => {
+        await require(appPath + '/note/push')(context)
+    })
+    .post('*/note/get', async (context) => {
+        await require(appPath + '/note/get')(context)
+    })
+    .post('*/note/:id', async (context) => {
+        let id = context.params.id
+        await require(appPath + '/note/get')(context, id)
+    })
+    .post('*/cloud/updata', async (context) => {
+        await require(appPath + '/cloud/updata')(context)
+    })
+    .post('*', async (context) => {
+        context.response.status = 403
+        context.response.body = '403'
     })
 
 

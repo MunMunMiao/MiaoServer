@@ -1,4 +1,4 @@
-module.exports = ( query, config ) => {
+module.exports = ( query, value, config ) => {
 
     return new Promise((resolve, reject) => {
 
@@ -22,9 +22,8 @@ module.exports = ( query, config ) => {
         // 如果config值不存在则适用config.js里的配置,存在的话使用上面的config值
         if ( typeof (config) == 'undefined'  ){
 
-            const config = require(appPath + '/config');
             connection = mysql.createConnection(
-                config.mysql
+                userConfig.mysql
             );
 
         }else {
@@ -38,7 +37,7 @@ module.exports = ( query, config ) => {
         // 连接
         connection.connect();
         // 查询
-        connection.query(query, (error, results) => {
+        connection.query(query, value, (error, results) => {
 
             if(error){
 

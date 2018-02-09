@@ -1,13 +1,36 @@
-const checkUser = async () => {
+const checkUser = async (context) => {
 
-    const dbQuery = require(appPath + '/plug/dbQuery')
+    let uid = context.cookies.get('uid') || undefined
+    let token = context.cookies.get('token') || undefined
 
-    let data = dbQuery('SELECT * FROM user WHERE id='+ uid +' LIMIT 1')
+    if ( uid === undefined || token === undefined ){
+        context.response.body = await sendApiData(0, '请登陆','', true)
+        return await sendApiData(0, '请登陆','', false)
+    }
 
-    console.log( data )
+    const crypto = require('crypto')
 
 
-    return data
+    let sql = "SELECT * FROM user WHERE id=? LIMIT 1"
+    let value = [uid]
+    let data = await dbQuery(sql, value)
+
+    let results = {}
+
+    for ( let i in data[0] ){
+        results[i] = data[0][i]
+    }
+
+    let encryption = crypto.createHash('RSA-SHA512').update(results.password).digest('hex')
+
+    if ( token === encryption ){
+        return await sendApiData(1, '', results, false)
+    }
+
+    if ( token !== encryption ){
+        context.response.body = await sendApiData(0, '请重新登陆','', true)
+        return await sendApiData(0, '请重新登陆','', true)
+    }
 
 }
 module.exports = checkUser

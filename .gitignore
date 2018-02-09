@@ -5,5 +5,5 @@ dist/
 Thumbs.db
 ehthumbs.db
 Desktop.ini
-tmp/git
+tmp/
 config.js
