@@ -11,7 +11,7 @@ router
 
             return new Promise( (resolve, reject) => {
 
-                fs.readFile(appPath + '/test.html', async (err, data)=>{
+                fs.readFile('../../test.html', async (err, data)=>{
 
                     if(err){
                         console.log(err)
@@ -30,37 +30,37 @@ router
 
     })
     .post('*/language/get', async (context) => {
-        await require(appPath + '/language/get')(context)
+        await require('../language/get')(context)
     })
     .post('*/user/login', async (context) => {
-        await require(appPath + '/user/login')(context)
+        await require('../user/login')(context)
     })
     .post('*/user/signup', async (context) => {
-        await require(appPath + '/user/signup')(context)
+        await require('../user/signup')(context)
     })
     .post('*/user/exit', async (context) => {
-        await require(appPath + '/user/exit')(context)
+        await require('../user/exit')(context)
     })
     .post('*/user/getUserData', async (context) => {
-        await require(appPath + '/user/getUserData')(context)
+        await require('../user/getUserData')(context)
     })
     .post('*/note', async (context) => {
-        await require(appPath + '/note/get')(context)
+        await require('../note/get')(context)
     })
     .post('*/note/push', async (context) => {
-        await require(appPath + '/note/push')(context)
+        await require('../note/push')(context)
     })
     .post('*/note/get', async (context) => {
-        await require(appPath + '/note/get')(context)
+        await require('../note/get')(context)
     })
     .post('*/note/:id', async (context) => {
         let id = context.params.id
-        await require(appPath + '/note/get')(context, id)
+        await require('../note/get')(context, id)
     })
     .post('*/cloud/updata', async (context) => {
-        await require(appPath + '/cloud/updata')(context)
+        await require('../cloud/updata')(context)
     })
-    .post('*', async (context) => {
+    .all('*', async (context) => {
         context.response.status = 403
         context.response.body = '403'
     })

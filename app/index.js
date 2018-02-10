@@ -1,11 +1,10 @@
-global.appPath = __dirname
 const koa = require('koa')
 const app = new koa
 const koaBody = require('koa-body')
 const router = require('./router/index')
-global.dbQuery = require(appPath + '/plug/dbQuery')
-global.sendApiData = require(appPath + '/plug/sendApiData')
-global.userConfig = require(appPath + '/config')
+global.dbQuery = require('./plug/dbQuery')
+global.sendApiData = require('./plug/sendApiData')
+global.userConfig = require('../config')
 
 app
     .use(koaBody({

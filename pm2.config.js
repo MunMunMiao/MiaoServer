@@ -4,7 +4,7 @@ const config = {
     apps: [
         {
             name: "ElrisServer",
-            script: "./app.js",
+            script: "./app/index.js",
             watch: true,
             instances: '1',
             ignore_watch: [

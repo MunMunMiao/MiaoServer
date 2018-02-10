@@ -1,6 +1,6 @@
 const getUserData = async (context) => {
 
-    let userData = await require(appPath + '/user/checkUser')(context)
+    let userData = await require('./checkUser')(context)
 
     if ( userData.status === 0 ){
         context.response.status = 403

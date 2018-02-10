@@ -2,7 +2,7 @@ const getNote = async (context, id) => {
 
     let noteID = id || undefined
 
-    let userData = await require(appPath + '/user/checkUser')(context)
+    let userData = await require('../user/checkUser')(context)
     if ( userData.status === 0 ){ return }
 
     let uid = userData.content.id

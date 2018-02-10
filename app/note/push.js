@@ -1,6 +1,6 @@
 const push = async (context) => {
 
-    let userData = await require(appPath + '/user/checkUser')(context)
+    let userData = await require('../user/checkUser')(context)
     if ( userData.status === 0 ){ return }
 
     let form = context.request.body.fields === null ? false : context.request.body.fields
