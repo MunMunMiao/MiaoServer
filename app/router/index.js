@@ -53,6 +53,12 @@ router
     .post('*/note/get', async (context) => {
         await require('../note/get')(context)
     })
+    .post('*/note/del', async (context) => {
+        await require('../note/delete')(context)
+    })
+    .post('*/note/edit', async (context) => {
+        await require('../note/edit')(context)
+    })
     .post('*/note/:id', async (context) => {
         let id = context.params.id
         await require('../note/get')(context, id)

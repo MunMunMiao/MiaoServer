@@ -1,4 +1,5 @@
-const push = async (context) => {
+const edit = async (context) => {
+
 
     let userData = await require('../user/checkUser')(context)
     if ( userData.status === 0 ){ return }
@@ -6,12 +7,13 @@ const push = async (context) => {
     let form = context.request.body.fields === null ? false : context.request.body.fields
 
     let owner = userData.content.id
+    let noteID = form.id.toString()
     let text = form.text.toString()
     let ip = context.request.ip
     let time = new Date().getTime()
 
-    let sql = "INSERT INTO note (owner, text, ip, time, updataTime) VALUES (?, ?, ?, ?, ?)"
-    let value = [owner, text, ip, time, 0]
+    let sql = "UPDATE note SET text=?, ip=?, updataTime=? WHERE id=? AND owner=?"
+    let value = [text, ip, time, noteID, owner]
 
     let data = await dbQuery(sql, value)
 
@@ -37,4 +39,4 @@ const push = async (context) => {
 
 
 }
-module.exports = push
+module.exports = edit

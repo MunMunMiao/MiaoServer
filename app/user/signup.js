@@ -9,8 +9,8 @@ const signup = async (context) => {
     let encryption = crypto.createHash('RSA-SHA512').update(userPassword).digest('hex')
 
 
-    let sql = "INSERT INTO user (name, password, root, admin, nickname, gender) VALUES (?, ?, ?, ?, ?, ?)"
-    let value = [userName, encryption, 0, 0, userName, 0]
+    let sql = "INSERT INTO user (name, password, root, admin, nickname, gender, vip) VALUES (?, ?, ?, ?, ?, ?)"
+    let value = [userName, encryption, 0, 0, userName, 0, 0]
 
     let data = await dbQuery(sql, value)
 
