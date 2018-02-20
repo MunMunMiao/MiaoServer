@@ -44,6 +44,9 @@ router
     .post('*/user/getUserData', async (context) => {
         await require('../user/getUserData')(context)
     })
+    .post('*/user/setUserPortrait', async (context) => {
+        await require('../user/setUserPortrait')(context)
+    })
     .post('*/note', async (context) => {
         await require('../note/get')(context)
     })

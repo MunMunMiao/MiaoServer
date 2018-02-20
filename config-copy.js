@@ -14,6 +14,7 @@ const config = {
     },
     path:{
         cloud:'',
+        resource:'',
         tmp:'',
         error_log: '',
         log: ''
