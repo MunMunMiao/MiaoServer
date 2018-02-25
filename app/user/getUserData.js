@@ -1,16 +1,18 @@
-const getUserData = async (context) => {
+const getUserData = async context => {
 
-    let userData = await require('./checkUser')(context)
-    if ( userData.status === 0 ){ return }
+    if ( global.userData.status === 0 ){
+        context.response.body = await sendApiData(0, '请登录', '', true)
+        return
+    }
 
     let results = {}
 
-    results['uid'] = userData.content.id || undefined
-    results['admin'] = userData.content.admin || undefined
-    results['root'] = userData.content.root || undefined
-    results['portrait'] = userConfig.path.resource + userData.content.portrait || undefined
-    results['gender'] = userData.content.gender || undefined
-    results['nickname'] = userData.content.nickname || undefined
+    results['uid'] = global.userData.content.id || undefined
+    results['admin'] = global.userData.content.admin || undefined
+    results['root'] = global.userData.content.root || undefined
+    results['portrait'] = global.userConfig.path.resource + global.userData.content.portrait || undefined
+    results['gender'] = global.userData.content.gender || undefined
+    results['nickname'] = global.userData.content.nickname || undefined
 
     context.response.body = sendApiData(1, '', results, true)
 

@@ -1,12 +1,11 @@
-const edit = async (context) => {
+const edit = async context => {
 
 
-    let userData = await require('../user/checkUser')(context)
-    if ( userData.status === 0 ){ return }
+    if ( global.userData.status === 0 ){ return }
 
     let form = context.request.body.fields === null ? false : context.request.body.fields
 
-    let owner = userData.content.id
+    let owner = global.userData.content.id
     let noteID = form.id.toString()
     let text = form.text.toString()
     let ip = context.request.ip
@@ -27,13 +26,13 @@ const edit = async (context) => {
 
     if (  results['affectedRows'] !== 1 ){
 
-        context.response.body = await sendApiData(0, '创建失败', results, true)
+        context.response.body = await sendApiData(0, '修改失败', results, true)
 
     }
 
     if (  results['affectedRows'] === 1 ){
 
-        context.response.body = await sendApiData(1, '创建成功', results, true)
+        context.response.body = await sendApiData(1, '修改成功', results, true)
 
     }
 

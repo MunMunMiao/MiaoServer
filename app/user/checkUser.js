@@ -1,4 +1,4 @@
-const checkUser = async (context) => {
+const checkUser = async context => {
 
     let uid = context.cookies.get('uid') || undefined
     let token = context.cookies.get('token') || undefined

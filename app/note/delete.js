@@ -1,12 +1,11 @@
-const del = async (context) => {
+const del = async context => {
 
 
-    let userData = await require('../user/checkUser')(context)
-    if ( userData.status === 0 ){ return }
+    if ( global.userData.status === 0 ){ return }
 
     let form = context.request.body.fields === null ? false : context.request.body.fields
 
-    let uid = userData.content.id
+    let uid = global.userData.content.id
     let noteID = form.del
 
     let sql = "DELETE FROM note WHERE id=? AND owner=?"

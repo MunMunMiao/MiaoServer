@@ -1,4 +1,4 @@
-const exit = async (context) => {
+const exit = async context => {
 
     await context.cookies
         .set('uid', '', {
@@ -8,7 +8,7 @@ const exit = async (context) => {
             expires: new Date(0)
         })
 
-    context.response.body = await sendApiData(1, '已退出', '')
+    context.response.body = await sendApiData(1, '已退出', '', true)
 
 }
 module.exports = exit

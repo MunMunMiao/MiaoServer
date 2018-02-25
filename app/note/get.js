@@ -1,30 +1,17 @@
 const getNote = async (context, id) => {
 
-
-    console.log(
-        context.request.body.fields,
-        typeof (context.request.body.fields)
-    )
+    if ( global.userData.status === 0 ){
+        context.response.body = await sendApiData(0, '请登录', '', true)
+        return
+    }
 
     let form = context.request.body.fields
 
     let noteID = form === undefined ? undefined : form.id
 
-
-    let userData = await require('../user/checkUser')(context)
-    if ( userData.status === 0 ){ return }
-
-    let uid = userData.content.id
-    let admin = userData.content.admin
-    let root = userData.content.root
-
-
-    console.log(
-        noteID,
-        uid,
-        admin,
-        root
-    )
+    let uid = global.userData.content.id
+    let admin = global.userData.content.admin
+    let root = global.userData.content.root
 
     let sql
     let value

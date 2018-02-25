@@ -23,7 +23,7 @@ module.exports = ( query, value, config ) => {
         if ( typeof (config) == 'undefined'  ){
 
             connection = mysql.createConnection(
-                userConfig.mysql
+                global.userConfig.mysql
             );
 
         }else {

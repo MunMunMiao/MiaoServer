@@ -1,7 +1,6 @@
-const setUserPortrait = async (context) => {
+const setUserPortrait = async context => {
 
-    let userData = await require('./checkUser')(context)
-    if (userData.status === 0) {return}
+    if ( global.userData.status === 0 ){ return }
 
     let files = context.request.body.files === null ? false : context.request.body.files
 
@@ -21,7 +20,7 @@ const setUserPortrait = async (context) => {
     const crypto = require('crypto')
 
     let fileName = crypto.createHash('md5').update(name).digest('hex') + new Date().getTime() + '.png'
-    let outPath = userConfig.path.tmp + fileName
+    let outPath = global.userConfig.path.tmp + fileName
 
     const gm = require('gm')
     const fs = require('fs')

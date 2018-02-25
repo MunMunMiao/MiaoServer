@@ -1,4 +1,4 @@
-const login = async (context) => {
+const login = async context => {
 
     let form = context.request.body.fields === null ? false : context.request.body.fields
 
@@ -24,7 +24,7 @@ const login = async (context) => {
     // 在对用户输入的密码加密后与数据库的值不一致，返回失败
     if ( results.password !== encryption ){
 
-        context.response.body = await sendApiData(0, '信息错误', '', true)
+        context.response.body = await sendApiData(0, '账号或者密码错误', '', true)
 
     }
 
@@ -36,7 +36,7 @@ const login = async (context) => {
 
         await context.cookies
             .set('uid', uid, {
-                domain: userConfig.domain,
+                domain: global.userConfig.domain,
                 path:'/',
                 expires: new Date(new Date().getTime() + 100*24*60*60*1000),
                 httpOnly: true,

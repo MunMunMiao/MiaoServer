@@ -1,4 +1,4 @@
-const updata = async (context) => {
+const updata = async context => {
 
     let files = context.request.body.files.file === null ? false : context.request.body.files.file
 
@@ -23,7 +23,7 @@ const updata = async (context) => {
             })
 
             let oldPath = files[f]['path']
-            let newPath = userConfig.path.cloud + files[f]['name']
+            let newPath = global.userConfig.path.cloud + files[f]['name']
 
             await fs.rename(oldPath, newPath, ()=>{})
 
@@ -44,7 +44,7 @@ const updata = async (context) => {
         })
 
         let oldPath = files['path']
-        let newPath = userConfig.path.cloud + files['name']
+        let newPath = global.userConfig.path.cloud + files['name']
 
         await fs.rename(oldPath, newPath, ()=>{})
 

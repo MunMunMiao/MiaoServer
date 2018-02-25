@@ -1,11 +1,10 @@
-const push = async (context) => {
+const push = async context => {
 
-    let userData = await require('../user/checkUser')(context)
-    if ( userData.status === 0 ){ return }
+    if ( global.userData.status === 0 ){ return }
 
     let form = context.request.body.fields === null ? false : context.request.body.fields
 
-    let owner = userData.content.id
+    let owner = global.userData.content.id
     let text = form.text.toString()
     let ip = context.request.ip
     let time = new Date().getTime()
