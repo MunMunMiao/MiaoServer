@@ -8,8 +8,21 @@ const del = async context => {
     let uid = global.userData.content.id
     let noteID = form.del
 
-    let sql = "DELETE FROM note WHERE id=? AND owner=?"
-    let value = [noteID, uid]
+    let sql
+    let value
+
+    if ( global.userData.content.root === 1 ){
+
+        sql = "DELETE FROM note WHERE id=?"
+        value = [noteID]
+
+    }
+    if ( global.userData.content.root === 0 ){
+
+        sql = "DELETE FROM note WHERE id=? AND owner=?"
+        value = [noteID, uid]
+
+    }
 
     let data = await dbQuery(sql, value)
 
