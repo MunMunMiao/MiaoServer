@@ -10,7 +10,7 @@ const push = async context => {
     let time = new Date().getTime()
 
     let sql = "INSERT INTO note (owner, text, ip, time, updataTime) VALUES (?, ?, ?, ?, ?)"
-    let value = [owner, text, ip, time, 0]
+    let value = [owner, text, ip, time, time]
 
     let data = await dbQuery(sql, value)
 

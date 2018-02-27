@@ -18,21 +18,21 @@ const getNote = async (context, id) => {
 
     // 拥有root权限，并且有请求noteID
     if ( root === 1 && noteID !== undefined ){
-        sql = "SELECT * FROM note WHERE id=? ORDER BY time DESC"
+        sql = "SELECT * FROM note WHERE id=? ORDER BY updataTime DESC"
         value = [noteID]
     }
     // 拥有root权限，没有请求noteID
     if ( root === 1 && noteID === undefined ){
-        sql = "SELECT * FROM note ORDER BY time DESC"
+        sql = "SELECT * FROM note ORDER BY updataTime DESC"
     }
     // 普通用户，并且有请求noteID
     if ( root === 0 && noteID !== undefined ){
-        sql = "SELECT * FROM note WHERE owner=? AND id=? ORDER BY time DESC"
+        sql = "SELECT * FROM note WHERE owner=? AND id=? ORDER BY updataTime DESC"
         value = [uid, noteID]
     }
     // 普通用户，没有请求noteID
     if ( root === 0 && noteID === undefined ){
-        sql = "SELECT * FROM note WHERE owner=? ORDER BY time DESC"
+        sql = "SELECT * FROM note WHERE owner=? ORDER BY updataTime DESC"
         value = [uid]
     }
 
