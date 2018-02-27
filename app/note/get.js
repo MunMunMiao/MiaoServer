@@ -46,12 +46,14 @@ const getNote = async (context, id) => {
         let text = data[i]['text']
         let ip = data[i]['ip']
         let time = data[i]['time']
+        let updataTime = data[i]['updataTime']
 
         results.push({
             id:id,
             text:text,
             ip:ip,
-            time:time
+            time:time,
+            updataTime:updataTime
         })
 
     }
