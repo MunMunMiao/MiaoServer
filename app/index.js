@@ -20,11 +20,14 @@ app
     }))
 
     .use(async (context, next) => {
-        context.response.set('Server', 'Elris')
+        context.response.set('Server', global.userConfig.app.name)
+        context.response.set('X-Powered-By', global.userConfig.app.name)
         context.response.set('Access-Control-Allow-Origin', global.userConfig.app.domain)
         context.response.set('Access-Control-Allow-Headers', 'X-Requested-With')
         context.response.set('Access-Control-Allow-Methods', 'POST')
         context.response.set('Access-Control-Allow-Credentials', 'true')
+        context.response.set('X-XSS-Protection', '1; mode=block;')
+        context.response.set('X-Content-Type-Options', 'nosniff')
         await next()
     })
 
@@ -39,4 +42,4 @@ app
     .use( router.allowedMethods() )
 
 
-    .listen(2100, '0.0.0.0')
+    .listen(global.userConfig.app.port, global.userConfig.app.ip)

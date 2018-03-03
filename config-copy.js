@@ -10,7 +10,10 @@ const config = {
         debug: false
     },
     app:{
-        domain: ''
+        name: '',
+        domain: '',
+        ip: '',
+        port: ''
     },
     path:{
         cloud:'',

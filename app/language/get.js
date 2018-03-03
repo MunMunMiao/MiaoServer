@@ -1,4 +1,4 @@
-const getLanuage = async (context) => {
+const getLanuage = async context => {
 
     let form = context.request.body.fields || null
 
