@@ -1,11 +1,10 @@
-const getLanuage = async context => {
+const getLanuage = async (context, send) => {
 
     let form = context.request.body.fields || null
 
     let lang = form.lang
 
     if ( form.lang === null|| form.lang === undefined ){
-        context.response.type = 403
         return
     }
 
@@ -24,6 +23,9 @@ const getLanuage = async context => {
 
     }
 
+    if ( send == false ){
+        return await sendApiData(1, '', results, false)
+    }
     context.response.body = await sendApiData(1, '', results, true)
 
 

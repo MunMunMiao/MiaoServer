@@ -1,4 +1,4 @@
-const signup = async (context) => {
+const signup = async context => {
 
     const crypto = require('crypto')
 

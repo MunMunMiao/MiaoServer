@@ -13,7 +13,11 @@ const config = {
         name: '',
         domain: '',
         ip: '',
-        port: ''
+        port: '',
+        Access_Control_Allow_Origin: '*',
+        Access_Control_Allow_Methods: 'POST GET',
+        Access_Control_Allow_Credentials: 'true',
+        Access_Control_Allow_Headers: 'X-Requested-With',
     },
     path:{
         cloud:'',

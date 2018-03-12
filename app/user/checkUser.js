@@ -26,8 +26,7 @@ const checkUser = async context => {
     }
 
     if ( token !== encryption ){
-        context.response.body = await sendApiData(0, '请重新登陆','', true)
-        return await sendApiData(0, '','', true)
+        return await sendApiData(0, '','', false)
     }
 
 }

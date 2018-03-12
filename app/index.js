@@ -22,13 +22,21 @@ app
     .use(async (context, next) => {
         context.response.set('Server', global.userConfig.app.name)
         context.response.set('X-Powered-By', global.userConfig.app.name)
-        context.response.set('Access-Control-Allow-Origin', global.userConfig.app.domain)
-        context.response.set('Access-Control-Allow-Headers', 'X-Requested-With')
-        context.response.set('Access-Control-Allow-Methods', 'POST')
-        context.response.set('Access-Control-Allow-Credentials', 'true')
+        context.response.set('Access-Control-Allow-Origin', global.userConfig.app.Access_Control_Allow_Origin)
+        context.response.set('Access-Control-Allow-Headers', global.userConfig.app.Access_Control_Allow_Headers)
+        context.response.set('Access-Control-Allow-Methods', global.userConfig.app.Access_Control_Allow_Methods)
+        context.response.set('Access-Control-Allow-Credentials', global.userConfig.app.Access_Control_Allow_Credentials)
         context.response.set('X-XSS-Protection', '1; mode=block;')
         context.response.set('X-Content-Type-Options', 'nosniff')
         await next()
+    })
+
+    .use(async (context, next) => {
+
+        // global.language = await require('./language/get')(context, false)
+        // console.log(global.language['login'])
+        await next()
+
     })
 
     .use(async (context, next) => {
