@@ -24,7 +24,7 @@ const del = async context => {
 
     }
 
-    let data = await dbQuery(sql, value)
+    let data = await utils.dbQuery(sql, value)
 
     let results = {}
 
@@ -36,13 +36,13 @@ const del = async context => {
 
     if (  results['affectedRows'] !== 1 ){
 
-        context.response.body = await sendApiData(0, '删除失败', results, true)
+        context.response.body = await utils.send(0, '删除失败', results, true)
 
     }
 
     if (  results['affectedRows'] === 1 ){
 
-        context.response.body = await sendApiData(1, '删除成功', results, true)
+        context.response.body = await utils.send(1, '删除成功', results, true)
 
     }
 

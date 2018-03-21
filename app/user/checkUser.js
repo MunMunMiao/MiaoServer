@@ -19,6 +19,10 @@ const checkUser = async context => {
         results[i] = data[0][i]
     }
 
+    if ( results.password === undefined ){
+        return await sendApiData(1, '', '', false)
+    }
+
     let encryption = crypto.createHash('RSA-SHA512').update(results.password).digest('hex')
 
     if ( token === encryption ){

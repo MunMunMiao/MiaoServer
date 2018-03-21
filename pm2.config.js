@@ -18,10 +18,9 @@ const config = {
             watch_options: {
                 followSymlinks: false
             },
-            max_restarts: 5,
-            max_memory_restart: '512M',
-            log_date_format: "YYYY-MM-DD HH:mm Z",
-            error_file: userConfig.path.error_log,
+            max_memory_restart: '1024M',
+            // log_date_format: "YYYY-MM-DD HH:mm Z",
+            // error_file: userConfig.path.error_log,
             // out_file: userConfig.path.log,
         }
     ]

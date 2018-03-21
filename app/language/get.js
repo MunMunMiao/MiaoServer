@@ -1,4 +1,4 @@
-const getLanuage = async (context, send) => {
+module.exports = async (context, send) => {
 
     let form = context.request.body.fields || null
 
@@ -10,7 +10,7 @@ const getLanuage = async (context, send) => {
 
     let sql = "SELECT keyword, ?? FROM language"
     let value = [lang]
-    let data = await dbQuery(sql, value)
+    let data = await utils.dbQuery(sql, value)
 
     let results = {}
 
@@ -31,4 +31,3 @@ const getLanuage = async (context, send) => {
 
 
 }
-module.exports = getLanuage

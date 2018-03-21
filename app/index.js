@@ -6,6 +6,7 @@ const router = require('./router/index')
 global.dbQuery = require('./plug/dbQuery')
 global.sendApiData = require('./plug/sendApiData')
 global.userConfig = require('../config')
+global.utils = require('./plug/utils')
 
 app
     .use(koaBody({
