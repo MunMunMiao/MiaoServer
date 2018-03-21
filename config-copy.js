@@ -22,7 +22,7 @@ const config = {
     },
     path:{
         cloud:'',
-        resource:'',
+        static:'',
         tmp:'',
         error_log: '',
         log: ''
