@@ -10,7 +10,7 @@ const getUserData = async context => {
     results['uid'] = global.userData.content.id || undefined
     results['admin'] = global.userData.content.admin || undefined
     results['root'] = global.userData.content.root || undefined
-    results['portrait'] = global.userConfig.path.resource + global.userData.content.portrait || undefined
+    results['portrait'] = global.userConfig.path.static + global.userData.content.portrait || undefined
     results['gender'] = global.userData.content.gender || undefined
     results['nickname'] = global.userData.content.nickname || undefined
 
