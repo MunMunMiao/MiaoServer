@@ -40,12 +40,12 @@ module.exports = async context => {
 
 
         // 数据库已存在
-        // if ( q[0] !== undefined ){
+        // if ( q.length >= 1 ){
         //
         // }
 
         // 数据库未存在
-        if ( q[0] === undefined ){
+        if ( q.length === 0 ){
             await insert(src)
         }
 
