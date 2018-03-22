@@ -1,4 +1,4 @@
-const gallery = async context => {
+module.exports = async context => {
 
     if ( global.userData.status === 0 ){ return }
 
@@ -6,8 +6,13 @@ const gallery = async context => {
 
     let link = JSON.parse(form.link)
 
-    async function insert(s) {
+    if ( link.length === 0 ){
+        context.response.body = utils.send(0, '内容为空', '', true)
+        return
+    }
 
+
+    async function insert(s) {
         let sql = 'INSERT INTO gallery (owner, src, remarks, tag, addTime) VALUES (?, ?, ?, ?, ?)'
         let value = [
             global.userData.content.id,
@@ -18,27 +23,32 @@ const gallery = async context => {
         ]
 
         return await utils.dbQuery(sql, value)
+    }
+    async function query(s) {
+        let sql = 'SELECT * FROM gallery WHERE src=?'
+        let value = [s]
 
+        return await utils.dbQuery(sql, value)
     }
 
-    if ( link.length === 0 ){
-        context.response.body = utils.send(0, '内容为空', '', true)
-        return
-    }
+
 
     for ( index in link ){
 
         let src = link[index].images
+        let q = await query(src)
 
-        let response = await insert(src)
 
-        if ( response['affectedRows'] === 0 ){
+        // 数据库已存在
+        // if ( q[0] !== undefined ){
+        //
+        // }
 
-            break
-            context.response.body = utils.send(0, '添加失败', response, true)
-            return
-
+        // 数据库未存在
+        if ( q[0] === undefined ){
+            await insert(src)
         }
+
 
     }
 
@@ -48,4 +58,3 @@ const gallery = async context => {
 
 
 }
-module.exports = gallery

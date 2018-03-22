@@ -1,6 +1,5 @@
 module.exports = async context => {
 
-
     if ( userData.status === 0 || userData.content.root !== 1 ){
         context.response.body = await utils.send(0, '没有权限', '', true)
         return
