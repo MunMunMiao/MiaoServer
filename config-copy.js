@@ -8,7 +8,7 @@ const config = {
         database: '',
         charset: 'UTF8_GENERAL_CI',
         multipleStatements: true,
-        debug: false
+        log: false
     },
     app:{
         name: '',

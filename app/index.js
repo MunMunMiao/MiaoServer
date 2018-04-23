@@ -2,11 +2,40 @@ const koa = require('koa')
 const app = new koa
 const koaBody = require('koa-body')
 const router = require('./router/index')
+const sequelize = require('sequelize')
 
 global.dbQuery = require('./plug/dbQuery')
 global.sendApiData = require('./plug/sendApiData')
 global.userConfig = require('../config')
 global.utils = require('./plug/utils')
+global.db = new sequelize(userConfig.mysql.database, userConfig.mysql.user, userConfig.mysql.password, {
+    host: userConfig.mysql.host,
+    port: userConfig.mysql.port,
+    dialect: 'mysql',
+    operatorsAliases: false,
+    logging: userConfig.mysql.log,
+    pool: {
+        max: 6,
+        min: 0,
+        acquire: 50000,
+        idle: 10000
+    },
+    define: {
+        createdAt: false,
+        updatedAt: false,
+        underscored: false,
+        freezeTableName: true,
+        charset: 'utf8',
+        dialectOptions: {
+            collate: 'utf8_general_ci'
+        },
+        timestamps: false,
+        version: false
+    },
+    query:{
+        raw: true
+    }
+})
 
 app
     .use(koaBody({
@@ -42,7 +71,7 @@ app
 
     .use(async (context, next) => {
 
-        global.userData = await require('./user/checkUser')(context)
+        global.userData = await require('./components/user/checkUser')(context)
         await next()
 
     })

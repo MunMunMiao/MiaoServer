@@ -1,5 +1,5 @@
 const utils = {
-    dbQuery: ( query, value, config ) => {
+    dbQuery: function( query, value, config ) {
         return new Promise((resolve, reject) => {
 
 
@@ -59,7 +59,54 @@ const utils = {
 
         })
     },
-    send: (status, message, data, convert) => {
+    db: function (config) {
+
+        let host = userConfig.mysql.host
+        let port = userConfig.mysql.port
+        let user = userConfig.mysql.user
+        let password = userConfig.mysql.password
+        let database = userConfig.mysql.database
+
+        if ( config !== undefined ){
+            host = config.host
+            port = config.port
+            user = config.user
+            password = config.password
+            database = config.database
+        }
+
+        const sequelize = require('sequelize');
+        return new sequelize(database, user, password, {
+            host: host,
+            port: port,
+            dialect: 'mysql',
+            operatorsAliases: false,
+            logging: userConfig.mysql.log,
+            pool: {
+                max: 6,
+                min: 0,
+                acquire: 50000,
+                idle: 10000
+            },
+            define: {
+                createdAt: false,
+                updatedAt: false,
+                underscored: false,
+                freezeTableName: true,
+                charset: 'utf8',
+                dialectOptions: {
+                    collate: 'utf8_general_ci'
+                },
+                timestamps: false,
+                version: false
+            },
+            query:{
+                raw: true
+            }
+        })
+
+    },
+    send: function(status, message, data, convert) {
         status = status === null ? false : status
         message = message === null ? false : message
         data = data === null ? false : data

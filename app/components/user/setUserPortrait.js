@@ -32,6 +32,7 @@ const setUserPortrait = async context => {
             gm(path)
                 .resize(120)
                 .quality(70)
+                .noProfile()
                 .setFormat('png')
                 .write(outPath, async () => {
 
