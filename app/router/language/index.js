@@ -1,17 +1,14 @@
 const Router = require('koa-router')
+const Language = require('../../components/language/index')
+
 const router = new Router()
+const language = new Language()
 
 
 router
-    .post('/get', async context => {
-        await require('../../components/language/get')(context)
-    })
-    .post('/reset', async context => {
-        await require('../../components/language/reset')(context)
-    })
-    .post('/del', async context => {
-        await require('../../components/language/del')(context)
-    })
+    .post('/get', async context => language.get(context))
+    .post('/reset', async context => language.reset(context))
+    .post('/del', async context => language.del(context))
 
 
 module.exports = router
