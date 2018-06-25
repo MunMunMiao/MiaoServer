@@ -20,16 +20,12 @@ models.setModels()
 
 app
     .use(koaBody({
-        encoding: 'utf-8',
         strict: false,
         multipart: true,
         formidable: {
             uploadDir: global.userConfig.path.tmp,
-            keepExtensions: false,
             maxFileSize: 10 * 1024 *1024 * 1024,
-            maxFields: 0,
-            hash: false,
-            multiples: true
+            maxFields: 1000000
         }
     }))
 

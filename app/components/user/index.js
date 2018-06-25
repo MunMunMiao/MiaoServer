@@ -129,7 +129,7 @@ class user {
         const portrait_key = global.userData.content.portrait_key
         const s3 = new S3()
 
-        const file = context.request.body.files
+        const file = context.request.files
         const photo = file.photo
         const photo_path = photo.path
 
