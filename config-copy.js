@@ -18,10 +18,16 @@ const config = {
         Access_Control_Allow_Credentials: 'true',
         Access_Control_Allow_Headers: 'X-Requested-With, Content-Type',
     },
+    digitalocean: {
+        access_id: '',
+        access_key: '',
+        region: '',
+        bucket: '',
+        expires: 86400
+    },
     path:{
-        cloud:'',
-        static:'',
-        tmp:'',
+        prefix: '',
+        tmp: '',
         error_log: '',
         log: ''
     }

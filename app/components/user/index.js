@@ -113,7 +113,7 @@ class user {
                 })
 
 
-            context.response.body = await utils.send(1, '登录成功', '', true)
+            context.response.body = utils.send(1, '登录成功', '', true)
 
         }
 
