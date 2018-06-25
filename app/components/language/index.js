@@ -4,7 +4,7 @@ class language {
 
         let lang = context.request.body.lang
 
-        const languageDB = await db.import('../../dbTable/language.js')
+        const languageDB = Models.language
 
         await languageDB.sync({alter: true})
 
@@ -32,7 +32,7 @@ class language {
 
         let id = context.request.body.id
 
-        const languageDB = await db.import('../../dbTable/language.js')
+        const languageDB = Models.language
         await languageDB.sync({alter: true})
 
         let response = await languageDB.destroy({
@@ -58,7 +58,7 @@ class language {
     }
     async setDefault(context){
 
-        const languageDB = await db.import('../../dbTable/language.js')
+        const languageDB = Models.language
         await languageDB.sync({force: true})
 
         await languageDB.bulkCreate([

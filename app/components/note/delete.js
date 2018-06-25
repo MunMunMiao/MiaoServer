@@ -8,7 +8,7 @@ const del = async context => {
     let uid = global.userData.content.id
     let noteID = id
 
-    const noteDB = await db.import('../../dbTable/note.js')
+    const noteDB = Models.note
     await noteDB.sync({alter: true})
 
     let response

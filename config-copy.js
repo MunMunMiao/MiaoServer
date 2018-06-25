@@ -6,8 +6,6 @@ const config = {
         user: '',
         password: '',
         database: '',
-        charset: 'UTF8_GENERAL_CI',
-        multipleStatements: true,
         log: false
     },
     app:{
@@ -18,7 +16,7 @@ const config = {
         Access_Control_Allow_Origin: '',
         Access_Control_Allow_Methods: 'POST, GET, OPTIONS',
         Access_Control_Allow_Credentials: 'true',
-        Access_Control_Allow_Headers: 'X-Requested-With',
+        Access_Control_Allow_Headers: 'X-Requested-With, Content-Type',
     },
     path:{
         cloud:'',

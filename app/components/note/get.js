@@ -5,7 +5,7 @@ const getNote = async context => {
         return
     }
 
-    const noteDB = await db.import('../../dbTable/note.js')
+    const noteDB = Models.note
 
     await noteDB.sync({alter: true})
 

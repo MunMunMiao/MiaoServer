@@ -1,8 +1,12 @@
 const Router = require('koa-router')
 const router = new Router()
 
+const User = require('../../components/user/index')
+const user = new User()
 
 router
+    .use(async (context, next) => await user.auth(context, next))
+
     .post('/', async context => {
         await require('../../components/note/get')(context)
     })

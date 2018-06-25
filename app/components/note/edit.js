@@ -11,7 +11,7 @@ const edit = async context => {
     let ip = context.request.ip
     let time = new Date().getTime()
 
-    const noteDB = await db.import('../../dbTable/note.js')
+    const noteDB = Models.note
 
     await noteDB.sync({alter: true})
 
