@@ -3,7 +3,7 @@ const userConfig = require('./config')
 const config = {
     apps: [
         {
-            name: "ElrisServer",
+            name: "lovelyz",
             script: "./app/index.js",
             watch: true,
             instances: 'max',
