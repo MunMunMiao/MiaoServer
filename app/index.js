@@ -21,13 +21,7 @@ models.setModels()
 app
     .use(koaBody({
         encoding: 'utf-8',
-        urlencoded: false,
-        text: true,
-        json: true,
         strict: false,
-        jsonLimit: 0,
-        formLimit: 0,
-        textLimit: 0,
         multipart: true,
         formidable: {
             uploadDir: global.userConfig.path.tmp,

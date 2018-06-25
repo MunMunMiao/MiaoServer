@@ -21,7 +21,7 @@ class Models {
         const fs = require('fs')
         const modelsPath = __dirname + '/db/'
 
-        return new Promise( async (resolve,reject)=>{
+        return new Promise( async (resolve, reject)=>{
 
             await fs.readdir(
                 modelsPath,
