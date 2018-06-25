@@ -21,6 +21,11 @@ models.setModels()
 app
     .use(koaBody({
         strict: false,
+        formLimit: 10 * 1024 *1024 * 1024,
+        textLimit: 10 * 1024 *1024 * 1024,
+        jsonLimit: 10 * 1024 *1024 * 1024,
+        jsonStrict: true,
+        encoding: 'utf-8',
         multipart: true,
         formidable: {
             uploadDir: global.userConfig.path.tmp,
