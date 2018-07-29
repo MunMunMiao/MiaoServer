@@ -1,9 +1,8 @@
 const koa = require('koa')
 const koaBody = require('koa-body')
 const router = require('./router/index')
-const sequelize = require('sequelize')
 
-const app = new koa
+const app = new koa()
 
 global.userConfig = require('../config')
 global.utils = require('./utils/utils')
@@ -11,12 +10,11 @@ global.utils = require('./utils/utils')
 const Models = require('./models/index')
 const models = new Models()
 
-models.setModels()
+models.setModels(app)
 
-// const Mongo = require('./models/mongo')
-// const mongo = new Mongo()
-//
-// mongo.link()
+app.context.utils = require('./utils/utils')
+app.context.userConfig = require('../config')
+app.context.oss = require('./oss/index')
 
 app
     .use(koaBody({
@@ -37,27 +35,27 @@ app
     .use(async (context, next) => {
         context.response.set(
             'Server',
-            userConfig.app.name
+            context.userConfig.app.name
         )
         context.response.set(
             'X-Powered-By',
-            userConfig.app.name
+            context.userConfig.app.name
         )
         context.response.set(
             'Access-Control-Allow-Origin',
-            userConfig.app.Access_Control_Allow_Origin
+            context.userConfig.app.Access_Control_Allow_Origin
         )
         context.response.set(
             'Access-Control-Allow-Headers',
-            userConfig.app.Access_Control_Allow_Headers
+            context.userConfig.app.Access_Control_Allow_Headers
         )
         context.response.set(
             'Access-Control-Allow-Methods',
-            userConfig.app.Access_Control_Allow_Methods
+            context.userConfig.app.Access_Control_Allow_Methods
         )
         context.response.set(
             'Access-Control-Allow-Credentials',
-            userConfig.app.Access_Control_Allow_Credentials
+            context.userConfig.app.Access_Control_Allow_Credentials
         )
         context.response.set(
             'X-XSS-Protection',

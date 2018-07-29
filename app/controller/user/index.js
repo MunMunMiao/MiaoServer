@@ -25,6 +25,7 @@ class user {
 
         if ( token === encryption ){
             global.userData = utils.send(1, '', results, false)
+            context.userData = utils.send(1, '', results, false)
             await next()
         }
 
@@ -36,19 +37,20 @@ class user {
 
     async getUserData(context){
 
-        const S3 = require('../../cloud/digitalocean/index')
-        const s3 = new S3()
+        const OSS = new context.oss(context)
+
+        let user = context.userData.content
 
         let results = {
-            id: userData.content.id,
-            admin: userData.content.admin,
-            root: userData.content.root,
-            portrait: userData.content.portrait_key,
-            gender: userData.content.gender,
-            nickname: userData.content.nickname,
+            id: user.id,
+            admin: user.admin,
+            root: user.root,
+            portrait: user.portrait_key,
+            gender: user.gender,
+            nickname: user.nickname,
         }
 
-        results.portrait = await s3.getObjectUrl(results.portrait)
+        results.portrait = await OSS.signatureUrl(results.portrait, 'style/icon')
 
         context.response.body = utils.send(1, '', results, true)
 
@@ -121,70 +123,18 @@ class user {
 
     async setPortrait(context){
 
-        const S3 = require('../../cloud/digitalocean/index')
-        const fs = require('fs')
-        const gm = require('gm')
-        const crypto = require('crypto')
-        const user_id = global.userData.content.id
-        const portrait_key = global.userData.content.portrait_key
-        const s3 = new S3()
+        let key = context.request.body.key
+        let uid = context.userData.content.id
 
-        const file = context.request.files
-        const photo = file.photo
-        const photo_path = photo.path
-
-        const tmp_path = userConfig.path.tmp
-
-        const outPhoto_name = crypto.createHash('sha256').update(photo_path).digest('hex')
-        const outPhoto_type = 'image/png'
-        const outPhoto_path = tmp_path + '/' + outPhoto_name
-
-        const outPhoto = await new Promise((resolve, reject) => {
-            gm(photo_path)
-                .resize(120)
-                .quality(70)
-                .noProfile()
-                .setFormat('png')
-                .write(outPhoto_path, async () => {
-                    await fs.unlink(photo_path, () => {})
-                    resolve()
-                })
-        })
-
-        const buffer = await new Promise((resolve, reject) => {
-            fs.readFile(outPhoto_path, (err, data) => {
-                if (err){
-                    reject(err)
-                    return
-                }
-                resolve(data)
-            })
-        })
-
-        await s3.putObject({
-            name: outPhoto_name,
-            data: buffer,
-            type: outPhoto_type
-        })
-
-        await fs.unlink(outPhoto_path, () => {})
-        await fs.unlink(photo_path, () => {})
-
-        await s3.deleteObjects([
-            {
-                Key: portrait_key
-            }
-        ])
-
-        await Models.user.update({
-            portrait_key: outPhoto_name
+        await context.Models.user.update({
+            portrait_key: key
         },{
             where: {
-                id: user_id
+                id: uid
             }
         })
 
-        context.response.body = utils.send(1, '', '', true)
+        context.response.body = utils.send(1, '修改成功', '', true)
 
     }
 

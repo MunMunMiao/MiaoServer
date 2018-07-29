@@ -1,6 +1,6 @@
 const Router = require('koa-router')
-const Language = require('../../components/language/index')
-const User = require('../../components/user/index')
+const Language = require('../../controller/language/index')
+const User = require('../../controller/user/index')
 
 const router = new Router()
 const language = new Language()

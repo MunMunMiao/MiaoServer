@@ -1,5 +1,5 @@
 const Router = require('koa-router')
-const User = require('../../components/user/index')
+const User = require('../../controller/user/index')
 
 const router = new Router()
 const user = new User()
@@ -7,7 +7,7 @@ const user = new User()
 router
     .post('/login', async context => await user.login(context))
     .post('/signup', async context => {
-        await require('../../components/user/signup')(context)
+        await require('../../controller/user/signup')(context)
     })
 
 router

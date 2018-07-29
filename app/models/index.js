@@ -1,6 +1,6 @@
 class Models {
 
-    async setModels(){
+    async setModels(app){
 
         const sequelize = require('sequelize')
         const files = await this.readModels()
@@ -8,9 +8,13 @@ class Models {
         global.Models = {}
         global.Models._Op = sequelize.Op
 
+        app.context.Models = {}
+        app.context.Models._Op = sequelize.Op
+
         files.forEach((value, key, arr) => {
 
             global.Models[key] = utils.db().import( value )
+            app.context.Models[key] = utils.db().import( value )
 
         })
 

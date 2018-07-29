@@ -1,5 +1,5 @@
 const utils = {
-    db: function (config) {
+    db: config => {
 
         let host = userConfig.mysql.host
         let port = userConfig.mysql.port
@@ -46,7 +46,7 @@ const utils = {
         })
 
     },
-    send: function(status, message, data, convert) {
+    send: (status, message, data, convert) => {
         status = status === null ? false : status
         message = message === null ? false : message
         data = data === null ? false : data

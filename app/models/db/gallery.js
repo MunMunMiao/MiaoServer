@@ -12,11 +12,7 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.INTEGER(11),
             allowNull: false
         },
-        thumbnail: {
-            type: DataTypes.TEXT,
-            allowNull: false
-        },
-        src: {
+        key: {
             type: DataTypes.TEXT,
             allowNull: false
         },
@@ -28,7 +24,7 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.TEXT,
             allowNull: true
         },
-        addTime: {
+        time: {
             type: DataTypes.BIGINT,
             allowNull: false
         },
