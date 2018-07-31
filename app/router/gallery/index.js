@@ -12,7 +12,7 @@ router
     .put('/', async context => await gallery.push(context))
     .get('/', async context => await gallery.get(context))
     .delete('/', async context => await gallery.del(context))
-    .post('/getImageInfo', async context => await gallery.getImageInfo(context))
+    .get('/imageInfo', async context => await gallery.imageInfo(context))
 
 
 module.exports = router

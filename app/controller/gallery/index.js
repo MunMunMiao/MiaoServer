@@ -26,17 +26,15 @@ class gallery {
         let nextID = context.request.query.next || undefined
 
         const OSS = new context.oss(context)
-        let uid = context.userData.content.uid
+        let uid = userData.content.id
         const Op = context.Models._Op
-        let all = await context.Models.gallery.count()
-        let next = all - parseInt(nextID, 10)
         let response
 
         if ( nextID !== undefined ){
 
             response = await context.Models.gallery.findAll({
                 where: {
-                    id: {
+                    time: {
                         [Op.lt]: nextID
                     },
                     owner: uid,
@@ -71,6 +69,7 @@ class gallery {
             results.push({
                 id: response[i]['id'],
                 url: await OSS.signatureUrl(response[i]['key'], 'style/gallry'),
+                key: response[i]['key'],
                 remarks: response[i]['remarks'],
                 tag: response[i]['tag'],
                 time: response[i]['time'],
@@ -93,8 +92,6 @@ class gallery {
         let key = context.request.body.key
         let uid = context.userData.content.id
 
-        console.log(key, uid)
-
         let have = await context.Models.gallery.count({
             where: {
                 key: key
@@ -112,29 +109,29 @@ class gallery {
 
     }
 
-    async getImageInfo(context){
+    async imageInfo(context){
 
-        let id = context.request.body.id || undefined
+        let key = context.request.query.key || undefined
+        const OSS = new context.oss(context)
 
-        if ( id === undefined ){
+        if ( key === undefined ){
             context.response.body = utils.send(0, '', '', true)
             return
         }
 
-        const gallery = Models.gallery
-        const response = await gallery.findOne({
+        const response = await Models.gallery.findOne({
             where: {
-                id: id
+                key: key
             }
         })
 
         let results = {
             id: response.id,
-            thumbnail: response.thumbnail,
-            src: response.src,
+            url: await OSS.signatureUrl(response.key, 'style/org'),
+            key: response.key,
             remarks: response.remarks,
             tag: response.tag,
-            time: response.addTime
+            time: response.time
         }
 
 
