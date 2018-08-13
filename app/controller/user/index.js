@@ -6,7 +6,7 @@ class user {
         let token = context.cookies.get('token') || undefined
 
         if ( uid === undefined || token === undefined ){
-            return context.response.body = utils.send(0, '','', false)
+            context.throw(403)
         }
 
         const crypto = require('crypto')
@@ -37,8 +37,7 @@ class user {
 
     async getUserData(context){
 
-        const OSS = new context.oss(context)
-
+        const oss = new context.oss()
         let user = context.userData.content
 
         let results = {
@@ -50,7 +49,7 @@ class user {
             nickname: user.nickname,
         }
 
-        results.portrait = await OSS.signatureUrl(results.portrait, 'style/icon')
+        results.portrait = await oss.signatureUrl(results.portrait, 'style/icon')
 
         context.response.body = utils.send(1, '', results, true)
 

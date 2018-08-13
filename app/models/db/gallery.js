@@ -16,6 +16,14 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.TEXT,
             allowNull: false
         },
+        md5: {
+            type: DataTypes.TEXT,
+            allowNull: false
+        },
+        tones: {
+            type: DataTypes.TEXT,
+            allowNull: false
+        },
         remarks: {
             type: DataTypes.TEXT,
             allowNull: true

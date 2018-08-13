@@ -84,6 +84,20 @@ const utils = {
 
         return year + month + day
 
-    }
+    },
+    getDateHHMMSS(date){
+
+        let time = new Date(date)
+        let hh = time.getHours()
+        let mm = time.getMinutes()
+        let ss = time.getSeconds()
+
+        hh = hh < 10 ? '0' + hh : hh
+        mm = mm < 10 ? '0' + mm : mm
+        ss = ss < 10 ? '0' + ss : ss
+
+        return hh + ':' + mm + ':' + ss
+
+    },
 }
 module.exports = utils

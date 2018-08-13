@@ -2,21 +2,22 @@ class gallery {
 
     async del(context){
 
-        let id = context.request.query.id || undefined
+        let key = context.request.query.key || undefined
 
-        let response = await context.Models.gallery.update({
+        let response = context.Models.gallery.update({
             survival: 0
         },{
             where: {
-                id: id
+                key: key
             }
         })
 
+
         if ( response[0] !== 1 ){
-            context.response.body = await utils.send(0, '删除成功', '', true)
+            context.response.body = await utils.send(1, '删除成功', '', true)
         }
         if ( response[0] === 1 ){
-            context.response.body = await utils.send(1, '删除失败', '', true)
+            context.response.body = await utils.send(0, '删除失败', '', true)
         }
 
     }
@@ -25,7 +26,7 @@ class gallery {
 
         let nextID = context.request.query.next || undefined
 
-        const OSS = new context.oss(context)
+        const OSS = new context.oss()
         let uid = userData.content.id
         const Op = context.Models._Op
         let response
@@ -68,8 +69,9 @@ class gallery {
 
             results.push({
                 id: response[i]['id'],
-                url: await OSS.signatureUrl(response[i]['key'], 'style/gallry'),
+                url: await OSS.signatureUrl('/images/' + response[i]['key'], 'style/gallery'),
                 key: response[i]['key'],
+                tones: response[i]['tones'],
                 remarks: response[i]['remarks'],
                 tag: response[i]['tag'],
                 time: response[i]['time'],
@@ -87,25 +89,69 @@ class gallery {
 
     }
 
-    async push(context){
+    async isEmpty(context){
 
-        let key = context.request.body.key
-        let uid = context.userData.content.id
+        let md5 = context.request.query.md5
 
-        let have = await context.Models.gallery.count({
+        let count = await context.Models.gallery.count({
             where: {
-                key: key
+                md5: md5
             }
         })
 
-        await context.Models.gallery.create({
-            owner: uid,
-            key: key,
-            time: new Date().getTime(),
-            survival: 1
-        })
+        if ( count === 0 ){
+            context.response.body = context.utils.send(1, null, null, true)
+        }
 
-        context.response.body = utils.send(1, 'ok', null, true)
+        if ( count > 0 ){
+            context.response.body = context.utils.send(0, null, null, true)
+        }
+
+    }
+
+    async push(context){
+
+        let key = context.request.body.key
+        let md5 = context.request.body.md5
+        let uid = context.userData.content.id
+        const gallery = context.Models.gallery
+
+        let response = gallery
+            .count({
+                where: {
+                    md5: md5
+                }
+            })
+            .then(async r => {
+
+                if ( r === 0 ){
+
+                    const oss = new context.oss()
+                    let tones = await oss.getImageTones(key)
+
+                    return gallery.create({
+                        owner: uid,
+                        key: key,
+                        md5: md5,
+                        tones: tones,
+                        time: new Date().getTime(),
+                        survival: 1
+                    })
+
+                }
+                if ( r === 1 ){
+
+                    return null
+
+                }
+
+            })
+
+        if ( response === null ){
+            context.response.body = utils.send(0, null, null, true)
+        }else {
+            context.response.body = utils.send(1, null, null, true)
+        }
 
     }
 
@@ -127,8 +173,9 @@ class gallery {
 
         let results = {
             id: response.id,
-            url: await OSS.signatureUrl(response.key, 'style/org'),
+            url: await OSS.signatureUrl('/images/' + response.key, 'style/org'),
             key: response.key,
+            tones: response.tones,
             remarks: response.remarks,
             tag: response.tag,
             time: response.time

@@ -4,7 +4,7 @@ const config = {
     apps: [
         {
             name: "lovelyz",
-            script: "./app/index.js",
+            script: "./app/aliyun-oss.js",
             watch: true,
             instances: 'max',
             exec_mode: 'cluster',
@@ -18,10 +18,8 @@ const config = {
             watch_options: {
                 followSymlinks: false
             },
-            max_memory_restart: '1024M',
-            // log_date_format: "YYYY-MM-DD HH:mm Z",
-            // error_file: userConfig.path.error_log,
-            // out_file: userConfig.path.log,
+            max_memory_restart: '512M',
+            log_date_format: "YYYY-MM-DD HH:mm Z",
         }
     ]
 }

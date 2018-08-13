@@ -1,36 +1,52 @@
-const config = {
+module.exports = {
 
     mysql:{
-        host: '',
-        port: '',
-        user: '',
-        password: '',
-        database: '',
+        host:'',
+        port:'',
+        user:'',
+        password:'',
+        database:'',
         log: false
     },
     app:{
         name: '',
         domain: '',
-        ip: '',
-        port: '',
-        Access_Control_Allow_Origin: '',
-        Access_Control_Allow_Methods: 'POST, GET, OPTIONS',
-        Access_Control_Allow_Credentials: 'true',
-        Access_Control_Allow_Headers: 'X-Requested-With, Content-Type',
+        running: {
+            ip: '',
+            port: '',
+        },
+        access_control: {
+            allow_origin: '*',
+            allow_methods: 'OPTIONS, GET, PUT, POST, DELETE',
+            allow_credentials: 'true',
+            allow_headers: 'X-Requested-With, Content-Type',
+        }
     },
-    digitalocean: {
-        access_id: '',
-        access_key: '',
+    aliyun: {
+        accessKeyid: '',
+        accessKeySecret: '',
         region: '',
+        secure: true,
         bucket: '',
-        expires: 86400
+        internal: false,
+        timeout: 0,
+        cname: false,
+        endpoint: '',
+        sts: {
+            role_arn: '',
+            policy: '',
+            expiration: 60 * 60 * 1,
+            session_name: ''
+        }
     },
-    path:{
+    directory: {
         prefix: '',
-        tmp: '',
-        error_log: '',
-        log: ''
+        path: {
+            data: '',
+            tmp: '',
+            error_log: '',
+            log: ''
+        }
     }
 
 }
-module.exports = config

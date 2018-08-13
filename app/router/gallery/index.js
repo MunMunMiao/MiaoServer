@@ -9,10 +9,11 @@ const gallery = new Gallery()
 router
     .use(async (context, next) => await user.auth(context, next))
 
-    .put('/', async context => await gallery.push(context))
+    .post('/', async context => await gallery.push(context))
     .get('/', async context => await gallery.get(context))
     .delete('/', async context => await gallery.del(context))
     .get('/imageInfo', async context => await gallery.imageInfo(context))
+    .get('/isempty', async context => await gallery.isEmpty(context))
 
 
 module.exports = router

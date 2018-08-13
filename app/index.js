@@ -14,22 +14,29 @@ models.setModels(app)
 
 app.context.utils = require('./utils/utils')
 app.context.userConfig = require('../config')
-app.context.oss = require('./oss/index')
+app.context.oss = require('./controller/aliyun/index')
 
 app
     .use(koaBody({
-        strict: false,
-        formLimit: 10 * 1024 *1024 * 1024,
-        textLimit: 10 * 1024 *1024 * 1024,
-        jsonLimit: 10 * 1024 *1024 * 1024,
+        strict: true,
+        formLimit: '2mb',
+        textLimit: '2mb',
+        jsonLimit: '2mb',
         jsonStrict: true,
+        json: true,
+        text: true,
+        urlencoded: true,
         encoding: 'utf-8',
         multipart: true,
         formidable: {
-            uploadDir: global.userConfig.path.tmp,
-            maxFileSize: 10 * 1024 *1024 * 1024,
-            maxFields: 1000000
-        }
+            uploadDir: userConfig.directory.path.tmp,
+            keepExtensions: false,
+            maxFileSize: 2 * 1024 * 1024,
+            maxFields: 10000,
+            hash: 'md5',
+            multiples: true
+        },
+        onError: e => console.log(e)
     }))
 
     .use(async (context, next) => {
@@ -43,19 +50,19 @@ app
         )
         context.response.set(
             'Access-Control-Allow-Origin',
-            context.userConfig.app.Access_Control_Allow_Origin
+            context.userConfig.app.access_control.allow_origin
         )
         context.response.set(
             'Access-Control-Allow-Headers',
-            context.userConfig.app.Access_Control_Allow_Headers
+            context.userConfig.app.access_control.allow_headers
         )
         context.response.set(
             'Access-Control-Allow-Methods',
-            context.userConfig.app.Access_Control_Allow_Methods
+            context.userConfig.app.access_control.allow_methods
         )
         context.response.set(
             'Access-Control-Allow-Credentials',
-            context.userConfig.app.Access_Control_Allow_Credentials
+            context.userConfig.app.access_control.allow_credentials
         )
         context.response.set(
             'X-XSS-Protection',
@@ -74,6 +81,6 @@ app
 
 
     .listen(
-        global.userConfig.app.port,
-        global.userConfig.app.ip
+        app.context.userConfig.app.running.port,
+        app.context.userConfig.app.running.ip
     )
