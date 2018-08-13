@@ -3,7 +3,7 @@ const userConfig = require('./config')
 const config = {
     apps: [
         {
-            name: "lovelyz",
+            name: "lyz",
             script: "./app/aliyun-oss.js",
             watch: true,
             instances: 'max',
