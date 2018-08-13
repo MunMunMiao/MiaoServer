@@ -6,7 +6,7 @@ class user {
         let token = context.cookies.get('token') || undefined
 
         if ( uid === undefined || token === undefined ){
-            context.throw(403)
+            return context.response.body = utils.send(0, '','', false)
         }
 
         const crypto = require('crypto')
