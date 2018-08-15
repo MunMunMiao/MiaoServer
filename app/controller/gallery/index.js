@@ -24,33 +24,69 @@ class gallery {
 
     async get(context){
 
-        let nextID = context.request.query.next || undefined
+        let key = context.request.query.key || undefined
 
         const OSS = new context.oss()
-        let uid = userData.content.id
+        const gallery = context.Models.gallery
+        const uid = userData.content.id
         const Op = context.Models._Op
         let response
 
-        if ( nextID !== undefined ){
+        if ( key !== undefined ){
 
-            response = await context.Models.gallery.findAll({
-                where: {
-                    time: {
-                        [Op.lt]: nextID
-                    },
-                    owner: uid,
-                    survival: 1
-                },
-                limit: 20,
-                order: [
-                    ['time', 'DESC']
-                ]
-            })
+            response = await gallery
+                .findOne({
+                    attributes: [
+                        'time'
+                    ],
+                    where: {
+                        key: key
+                    }
+                })
+                .catch(r => {
+                    return null
+                })
+                .then(r => {
+
+                    return gallery.findAll({
+                        attributes: [
+                            'key',
+                            'tones',
+                            'time',
+                            'remarks',
+                            'tag'
+                        ],
+                        where: {
+                            time: {
+                                [Op.lt]: r.time
+                            },
+                            owner: uid,
+                            survival: 1
+                        },
+                        limit: 20,
+                        order: [
+                            ['time', 'DESC']
+                        ]
+                    })
+
+                })
+                .then(r => {
+
+                    return r
+
+                })
 
         }
-        if ( nextID === undefined ){
+        if ( key === undefined ){
 
-            response = await context.Models.gallery.findAll({
+            response = await gallery.findAll({
+                attributes: [
+                    'key',
+                    'tones',
+                    'time',
+                    'remarks',
+                    'tag'
+                ],
                 where: {
                     survival: 1
                 },
@@ -63,20 +99,12 @@ class gallery {
 
         }
 
-        let results = []
-
         for ( let i in response ){
 
-            results.push({
-                id: response[i]['id'],
-                url: await OSS.signatureUrl('/images/' + response[i]['key'], 'style/gallery'),
-                key: response[i]['key'],
-                tones: response[i]['tones'],
-                remarks: response[i]['remarks'],
-                tag: response[i]['tag'],
-                time: response[i]['time'],
-            })
-
+            response[i].url = await OSS.signatureUrl(
+                '/images/' + response[i].key,
+                'style/gallery'
+            )
         }
 
 
@@ -84,7 +112,7 @@ class gallery {
             context.response.body = utils.send(0, '无更多', '', true)
         }
         if ( response[0] !== undefined ){
-            context.response.body = utils.send(1, '', results, true)
+            context.response.body = utils.send(1, '', response, true)
         }
 
     }
@@ -95,7 +123,8 @@ class gallery {
 
         let count = await context.Models.gallery.count({
             where: {
-                md5: md5
+                md5: md5,
+                survival: 1
             }
         })
 
@@ -119,7 +148,8 @@ class gallery {
         let response = gallery
             .count({
                 where: {
-                    md5: md5
+                    md5: md5,
+                    survival: 1
                 }
             })
             .then(async r => {
