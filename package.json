@@ -5,8 +5,8 @@
     "main": "./app/index.js",
     "scripts": {
         "start": "pm2 start pm2.config.js",
-        "stop": "pm2 delete 'lovelyz'",
-        "restart": "pm2 restart 'lovelyz'",
+        "stop": "pm2 delete 'lyz'",
+        "restart": "pm2 restart 'lyz'",
         "dev": "node ./app/index.js"
     },
     "author": "",
