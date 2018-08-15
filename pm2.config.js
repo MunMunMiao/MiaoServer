@@ -1,10 +1,8 @@
-const userConfig = require('./config')
-
-const config = {
+module.exports = {
     apps: [
         {
             name: "lyz",
-            script: "./app/aliyun-oss.js",
+            script: "./app/index.js",
             watch: true,
             instances: 'max',
             exec_mode: 'cluster',
@@ -23,4 +21,3 @@ const config = {
         }
     ]
 }
-module.exports = config
