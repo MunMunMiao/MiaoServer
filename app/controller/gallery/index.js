@@ -132,7 +132,7 @@ class gallery {
             context.response.body = context.utils.send(1, null, null, true)
         }
 
-        if ( count > 0 ){
+        if ( count !== 0 ){
             context.response.body = context.utils.send(0, null, null, true)
         }
 
