@@ -65,7 +65,7 @@ module.exports = class {
         const client = this.client
 
         return client.signatureUrl(key, {
-                expires: 3600,
+                expires: 86400,
                 process: process || ''
             })
 

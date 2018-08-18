@@ -105,6 +105,12 @@ class gallery {
                 '/images/' + response[i].key,
                 'style/gallery'
             )
+
+            response[i].blurry = await OSS.signatureUrl(
+                '/images/' + response[i].key,
+                'style/blurry'
+            )
+
         }
 
 
